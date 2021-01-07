@@ -10,16 +10,21 @@ init python:
     # number of rows of thumbnails in the gallery grid
     max_y = 3 
     # this will be the width of the thumbnails, height will be calculated automatically for 16:9 aspect ratio thumbnails
-    thumbnail_crop_x = 285 
+    # recommended sizes:
+    # 290 for 1280x720 resolution
+    # 400 for 1920x1080 resolution
+    thumbnail_x = 290
     ### END OF CONFIG ###
 
     max_page = max_x * max_y
-    thumbnail_crop_y = int(thumbnail_crop_x * 0.5625) # to change the aspect ratio from 16:9 to 4:3, change the value in formula to 0.75
+    thumbnail_y = int(thumbnail_x * 0.5625) # to change the aspect ratio from 16:9 to 4:3, change the value in formula to 0.75
+    gallery_resolution_scaling = config.screen_width / 1280.0
+    gallery_navigation_width = int(290 * gallery_resolution_scaling)
     gallery_page = 0
     gallery_items = []
     g = Gallery()
     g.transition = dissolve
-    g.locked_button = im.Scale("images/gallery_overlay/gallery_locked.png",thumbnail_crop_x,thumbnail_crop_y)
+    g.locked_button = im.Scale("images/gallery_overlay/gallery_locked.png",thumbnail_x,thumbnail_y)
 
     # provide images in a list, you can put more than one to have more images displayed consecutively after another under one button
     # if no thumbnail is provided as the 3rd argument, it will be built automatically from the 1st image in 16:9 aspect ratio
@@ -29,12 +34,17 @@ init python:
             self.name = name
             self.images = images 
             if thumb is None:
-                self.thumb = im.Scale(cg_path+images[0]+cg_format,thumbnail_crop_x,thumbnail_crop_y) 
+                self.thumb = im.Scale(cg_path+images[0]+cg_format,thumbnail_x,thumbnail_y) 
             else:
-                self.thumb = im.Scale(thumb,thumbnail_crop_x,thumbnail_crop_y)
+                self.thumb = im.Scale(thumb,thumbnail_x,thumbnail_y)
 
         def num_images(self):
             return len(self.images)
+
+image gallery_idle_overlay = im.Scale("images/gallery_overlay/gallery_idle_overlay.png",thumbnail_x,thumbnail_y)
+image gallery_background_overlay: 
+    "images/gallery_overlay/gallery_background_overlay.png"
+    zoom gallery_resolution_scaling
 
 screen gallery():
 
@@ -60,13 +70,13 @@ screen gallery():
     style_prefix "game_menu"
     add im.Blur(gui.main_menu_background, 1.5)
     add "gui/overlay/main_menu.png"
-    add "images/gallery_overlay/gallery_background_overlay.png"
+    add "gallery_background_overlay"
 
     hbox:
         vbox:
             style_prefix "navigation"
             yalign 0.9
-            xsize 290
+            xsize gallery_navigation_width
             xpos gui.navigation_xpos
             spacing gui.navigation_spacing
 
@@ -83,6 +93,6 @@ screen gallery():
             yfill True
             for i in range(start, end + 1):
                 $ item = gallery_items[i]
-                add g.make_button(item.name, item.thumb, idle_border=im.Crop("images/gallery_overlay/gallery_idle_overlay.png",(0,0,thumbnail_crop_x,thumbnail_crop_y)), xalign=0.5, yalign=0.5)
+                add g.make_button(item.name, item.thumb, idle_border="gallery_idle_overlay", xalign=0.5, yalign=0.5)
             for i in range(end - start + 1, max_page):
                 null
