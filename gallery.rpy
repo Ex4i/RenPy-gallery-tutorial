@@ -26,7 +26,8 @@ init python:
     g.transition = dissolve
     g.locked_button = im.Scale("images/gallery_overlay/gallery_locked.png",thumbnail_x,thumbnail_y)
 
-    # provide images in a list, you can put more than one to have more images displayed consecutively after another under one button
+    # A class for gallery items (no need to change anything here)
+    # when creating a GalleryItem object, provide images in a list, you can put more than one to have more images displayed consecutively after another under one button
     # if no thumbnail is provided as the 3rd argument, it will be built automatically from the 1st image in 16:9 aspect ratio
     # alternatively the path to the custom thumbnail can be provided as the 3rd argument during object creation
     class GalleryItem:
