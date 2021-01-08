@@ -13,6 +13,8 @@ To use:
 
 Layout for the gallery was implemented with games with 16:9 aspect ratio in mind and might need some changes in order to look good with other aspect ratios.
 
+Documentation for RenPy Gallery class can be found here: https://www.renpy.org/doc/html/rooms.html
+
 Built using some code snippets (gallery-image class, layout buttons and paging) from another project: https://github.com/Emperrific/Renpy-Tutorials-CG-Gallery
 
 Written for the visual novel Dawn Chorus (https://dawn-chorus.itch.io/dawn-chorus)
