@@ -11,6 +11,7 @@ To use:
 4) copy images/gallery_overlay into your game directory
 5) (optional) for the ease of use define your CGs as image objects as I did in images.rpy
 
+Layout for the gallery was implemented with games with 16:9 aspect ratio in mind and might need some changes in order to look good with other aspect ratios.
 
 Built using some code snippets (gallery-image class, layout buttons and paging) from another project: https://github.com/Emperrific/Renpy-Tutorials-CG-Gallery
 
